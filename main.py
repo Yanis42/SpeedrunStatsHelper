@@ -1,33 +1,47 @@
 #!/usr/bin/env python3
 
 if __name__ == "__main__":
-    with open("times.txt", "r") as f:
-        data = f.readlines()
+    # start by opening the file containing the times from livesplit
+    with open("times.txt", "r") as file:
+        fileLines = file.readlines()
 
-    newData = "".join(d for d in data) + "\n----- OUTPUT -----\n\n"
+    # start the new file data
+    newData = "".join(curLine for curLine in fileLines) + "\n----- OUTPUT -----\n\n```\n"
+
+    # skipped splits
     skipped = ""
 
-    for d in data:
-        if "OUTPUT" in d:
+    for i, curLine in enumerate(fileLines, 1):
+        # stop processing if the file is read again
+        if "OUTPUT" in curLine:
             break
 
-        if len(d) > 0:
-            d = d[:-1] # remove \n
-            if not "none" in d.lower():
-                d = d.replace(".", ",")
-                if not ":" in d:
-                    d = "00:00:" + d
-                else:
-                    if len(d.split(":")[0]) == 1:
-                        d = "0" + d
-                    if d.count(":") == 1:
-                        d = "00:" + d
-                if len(d.split(",")[-1]) == 1:
-                        d += "0"
-                newData += d + "\n"
-            else:
-                newData += "\n"
-                skipped += f"SKIPPED ENTRY: {d}\n"
+        # ignore empty lines and lines that are newlines
+        if len(curLine) > 0 and curLine != "\n":
+            # remove the trailing newline char
+            curLine = curLine[:-1]
 
-    with open("times.txt", "w") as f:
-        f.write(newData)
+            # if this isn't a skipped split
+            # replace the dot of the milliseconds by a comma
+            # and add the necessary prefixes
+            if not "none" in curLine.lower():
+                curLine = curLine.replace(".", ",")
+                if not ":" in curLine:
+                    curLine = "00:00:" + curLine
+                else:
+                    if len(curLine.split(":")[0]) == 1:
+                        curLine = "0" + curLine
+                    if curLine.count(":") == 1:
+                        curLine = "00:" + curLine
+                if len(curLine.split(",")[-1]) == 1:
+                        curLine += "0"
+                newData += curLine + "\n"
+            else:
+                # append the skipped entries
+                newData += "\n"
+                skipped += f"Skipped Entry at line {i}: {curLine}\n"
+
+    # complete the new file data and write it
+    newData += "```\n\n" + skipped
+    with open("times.txt", "w") as file:
+        file.write(newData)

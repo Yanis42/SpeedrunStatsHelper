@@ -2,9 +2,9 @@ name: Build (Linux/Windows)
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -15,12 +15,12 @@ jobs:
         include:
           - os: windows-latest
             BUILD_NAME: SpeedrunStatsHelper_Windows
-            BUILD_ARGS: -F -w main.py
+            BUILD_ARGS: -F -c main.py
             CMD_EXEC: PyInstaller
             FILE_TYPE: ".exe"
           - os: ubuntu-latest
             BUILD_NAME: SpeedrunStatsHelper_Linux
-            BUILD_ARGS: -F -w main.py
+            BUILD_ARGS: -F -c main.py
             CMD_EXEC: pyinstaller
             FILE_TYPE: ""
     steps:
