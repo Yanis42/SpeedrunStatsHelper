@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
+from time import time
+
 if __name__ == "__main__":
+    startTime = time()
+    print("Welcome! I am reading your times...")
+
     # start by opening the file containing the times from livesplit
     with open("times.txt", "r") as file:
         fileLines = file.readlines()
@@ -11,6 +16,7 @@ if __name__ == "__main__":
     # skipped splits
     skipped = ""
 
+    print("Now I'm going to process them...")
     for i, curLine in enumerate(fileLines, 1):
         # stop processing if the file is read again
         if "OUTPUT" in curLine:
@@ -45,3 +51,9 @@ if __name__ == "__main__":
     newData += "```\n\n" + skipped
     with open("times.txt", "w") as file:
         file.write(newData)
+
+    print(f"Done in {time() - startTime:.2f}s!\n")
+    print("You can find my work inside times.txt")
+
+    print("\nPress enter key to continue...")
+    input()  # trick to avoid the console closing on its own
