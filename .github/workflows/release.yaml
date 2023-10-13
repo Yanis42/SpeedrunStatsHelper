@@ -54,5 +54,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh release upload ${{ github.ref_name }} dist/${{ matrix.BUILD_NAME }}${{ matrix.FILE_TYPE }}
-        gh release upload ${{ github.ref_name }} times.txt
+        gh release upload ${{ github.ref_name }} dist/${{ matrix.BUILD_NAME }}${{ matrix.FILE_TYPE }} times.txt --clobber
