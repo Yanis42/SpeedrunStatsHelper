@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     # start the new file data
     newData = "".join(curLine for curLine in fileLines) + "\n----- OUTPUT -----\n\n```\n"
+    outputData = ""
 
     # skipped splits
     skipped = ""
@@ -41,19 +42,20 @@ if __name__ == "__main__":
                         curLine = "00:" + curLine
                 if len(curLine.split(",")[-1]) == 1:
                         curLine += "0"
-                newData += curLine + "\n"
+                outputData += curLine + "\n"
             else:
                 # append the skipped entries
-                newData += "\n"
+                outputData += "\n"
                 skipped += f"Skipped Entry at line {i}: {curLine}\n"
 
     # complete the new file data and write it
-    newData += "```\n\n" + skipped
+    newData += outputData + "```\n\n" + skipped
     with open("times.txt", "w") as file:
         file.write(newData)
 
     print(f"Done in {time() - startTime:.2f}s!\n")
-    print("You can find my work inside times.txt")
+    print("You can find my work inside times.txt, alternatively:")
+    print("```\n" + outputData + "\n```")
 
-    print("\nPress enter key to continue...")
+    print("\nPress enter to continue...")
     input()  # trick to avoid the console closing on its own
